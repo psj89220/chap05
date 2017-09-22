@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<!--/*/ 
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
+<link rel="stylesheet" href="/webjars/animate.css/3.5.2/animate.css">
+/*/-->
+<link rel="stylesheet" href="../css/bootstrap.css" th:remove="all">
+<link rel="stylesheet" href="../css/animate.css" th:remove="all">
+<title>DeptList.html</title>
+</head>
+<body>
+	<h1>Thymeleaf 부서 리스트 With Emp</h1>
+	<div th:text="${depts}"></div>
+	<div th:inline="text">[[${depts}]]</div>
+	<hr />
+	<div th:inline="text">
+		<ol>
+			<li>[[${depts[0].emps}]]</li>
+			<li>[[${depts[1]}]]</li>
+			<li>[[${depts[2]}]]</li>
+			<li>[[${depts[3]}]]</li>
+		</ol>
+	</div>
+	<hr />
+	<ol>
+		<li th:each="dept : ${depts}">
+			<h2 th:text="${dept.deptno} + ',' + ${dept.dname}"></h2>
+			<table class="table table-striped animated fadeIn">
+				<thead>
+					<tr><td>EMPNO</td><td>ENAME</td>
+						<td>GENDER1</td><td>GENDER2</td>
+						<td>JOB</td>	<td>MGR</td>
+						<td>MGR.NAME2</td>
+						<td>HIREDATE</td>
+						<td>HIREDATE2</td>
+						<td>SAL1</td>
+						<td>SAL2</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="emp : ${dept.emps}" th:inline="text">
+						<td>[[${emp.empno}]]</td>
+						<td>[[${emp.ename}]]</td>
+						<td>[[${emp.gender}]]</td>
+<!-- 						<th:block th:switch="${emp.gender.name()}"> -->
+<!-- 							<td th:case="M" th:text="남자">남자</td> -->
+<!-- 							<td th:case="m" th:text="남자">남자</td> -->
+<!-- 							<td th:case="F" th:text="여자">여자</td> -->
+<!-- 							<td th:case="f" th:text="여자">여자</td> -->
+<!-- 							<td th:case="*">맛감</td> -->
+<!-- 						</th:block> -->
+						<th:block th:switch="${emp.gender}">
+							<td th:case="${emp.gender.m}" th:text="남자">남자</td>
+							<td th:case="${emp.gender.M}" th:text="남자">남자</td>
+							<td th:case="${emp.gender.f}" th:text="여자">여자</td>
+							<td th:case="${emp.gender.F}" th:text="여자">여자</td>
+							<td th:case="*">맛감</td>
+						</th:block>
+						<td>[[${emp.job}]]</td>
+<!-- 						<td>[[${emp.mgr?.ename}]]</td> -->
+						<td>[[${emp.mgr == null ? 'xxx' : emp.mgr.ename}]]</td>
+						<td th:if="${emp.mgr eq null}">
+							<div class="btn btn-primary">없음</div>
+						</td>
+						<td th:unless="${emp.mgr eq null}">
+							<div class="btn btn-primary">[[${emp.mgr.ename}]]</div>
+						</td>
+						<td>[[${emp.hiredate}]]</td>
+						<td>[[${#dates.format(emp.hiredate, 'yyyy,MM,dd')}]]</td>
+						<td>[[${emp.sal}]]</td>
+						<td th:text="${#numbers.formatInteger(emp.sal, 3, 'COMMA')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</li>
+	</ol>
+</body>
+</html>

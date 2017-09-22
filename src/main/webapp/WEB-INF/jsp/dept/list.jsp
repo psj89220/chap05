@@ -1,31 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<c:if test="${true}">
 <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.css">
 <link rel="stylesheet" href="/webjars/animate.css/3.5.2/animate.css">
-<link rel="stylesheet" href="../css/bootstrap.css" th:remove="all">
-<link rel="stylesheet" href="../css/3.5.2/animate.css" th:remove="all">
+</c:if>
+<c:if test="${false}">
+<link rel="stylesheet" href="../css/bootstrap.css" data-th-remove="all">
+<link rel="stylesheet" href="../css/3.5.2/animate.css" data-th-remove="all">
+</c:if>
 <title>DeptList.jsp</title>
 </head>
 <body>
-	<table border="1">
-		<tr>
-			<td>DEPTNO</td>
-			<td>DNAME</td>
-			<td>LOC</td>
-		</tr>
-		<th:block th:each="dept : ${depts}">
-			<tr >
-				<td th:text="${dept.deptno}"></td>
-				<td th:text="${dept.dname}"></td>
-				<td th:text="${dept.loc}"></td>
-			</tr>		
-		</th:block>
-	</table>
-	
-	${depts}
+	<table class="table table-hover animated bounce">
+        <thead>
+                <tr>
+                        <th>DEPTNO</th><th>DNAME</th><th>LOC</th>
+                </tr>
+        </thead>
+        <tfoot>
+        </tfoot>
+        <tbody>
+                <c:forEach var="d" items="${depts}">
+                <tr>
+                        <td>${d.deptno}</td><td>${d.dname}</td><td>${d.loc}</td>
+                <tr>
+                </c:forEach>
+        </tbody>
+</table>
+<hr>
+<c:set var="xxx" value="${depts}"/>
+<ul class="list-group animated fadeInDown" >
+        <li class="list-group-item">${xxx}</li>
+</ul>
+
 </body>
 </html>

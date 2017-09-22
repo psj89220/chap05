@@ -51,5 +51,34 @@ public class DeptController {
 		
 		return "thymeleaf/dept/list";
 	}
+	
+	@GetMapping("/listemp")
+	@Transactional
+	public String listWithEmp(Model model) {
+		log.info("/dept/list 호출됨");
+		
+		List<DeptVO> depts = deptRepository.findAll(); 
+		deptRepository.findAll().forEach(e -> {
+			System.out.println(e);
+		});
+		model.addAttribute("depts", depts);
+		
+		return "jsp/dept/listemp";
+	}
+	
+	@GetMapping("/list2emp")
+	@Transactional
+	public String list2WithEmp(Model model) {
+		log.info("/dept/list2 호출됨");
+		
+		List<DeptVO> depts = deptRepository.findAll(); 
+		deptRepository.findAll().forEach(e -> {
+			System.out.println(e);
+		});
+		
+		model.addAttribute("depts", depts);
+		
+		return "thymeleaf/dept/listemp";
+	}
 
 }
